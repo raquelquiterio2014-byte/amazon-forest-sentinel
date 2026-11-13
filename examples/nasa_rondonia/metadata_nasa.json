@@ -1,0 +1,20 @@
+{
+  "mode": "FIELD",
+  "source_type": "satellite",
+  "site_id": "NASA-RONDONIA-RGB-TEST",
+  "source_ref": "NASA Earth Observatory, World of Change: Amazon Deforestation; https://science.nasa.gov/earth/earth-observatory/world-of-change/amazon-deforestation/ ; published display JPGs, exploratory RGB upload test, not drone imagery",
+  "latitude": -10.2,
+  "longitude": -63.8,
+  "coordinate_note": "Approximate regional reference near Buritis, Rondonia, supplied only because application requires coordinates. NOT image center, footprint or surveyed position. Do not use for area or distance.",
+  "before_time": "2000-07-30T00:00:00+00:00",
+  "after_time": "2012-07-18T00:00:00+00:00",
+  "time_note": "Source supplies calendar dates only; midnight UTC is a serialization placeholder, not a known acquisition time.",
+  "aligned": true,
+  "alignment_note": "Same published viewport, 720x480. Visual landmark consistency; four 50x50 high-pass patch searches within +/-6 pixels peaked at dx=dy=0 (correlations 0.575,0.300,0.360,0.095). Exploratory pixel correspondence only; not surveyed, georeferenced or subpixel-validated coregistration. No resampling applied.",
+  "mask_note": "Manual conservative spatial subset: x=40..599,y=140..344 inclusive; exclude x=500..599,y=250..310. White=retained for exploratory use, black=excluded. Avoids visible labels, scale bar, obvious edge cloud/smoke areas. NOT an authoritative cloud/clear classification; residual haze and other artifacts may remain.",
+  "threshold": 0.15,
+  "baseline": 0.1,
+  "scale": 1,
+  "offset": 0,
+  "validation_scope": "Real historical satellite display images; functional RGB import/screening test only. No calibrated reflectance, NDVI, ground truth, detection accuracy or deforestation area validation."
+}

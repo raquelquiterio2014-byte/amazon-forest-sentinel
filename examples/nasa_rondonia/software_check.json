@@ -1,0 +1,28 @@
+{
+  "scope": "Local software-only check. Not ground-truth validation or a user Windows result.",
+  "inputs_sha256": {
+    "amazon_deforestation_20120718.jpg": "c19f18ffdf2bd68deb4d6083a5c0569b2bcad3fab0efa455a388703218f0d81c",
+    "common_mask_nasa.png": "27a41d4ae4defebdea5a16ee0258db66f003bb2b00a1b59c692833d239d961fb",
+    "metadata_nasa.json": "6448f1e4875ae2efbe3a1f066ba36bb3bb7ec49aeac1e597cac79174cb58bb9c",
+    "amazon_deforestation_20000730.jpg": "064eaa8547eb908fad0a3b322beb2ebe6852f2ae9beefea4e340ddea02c73f2e"
+  },
+  "result": {
+    "total_pixels": 345600,
+    "valid_pixels": 108700,
+    "valid_coverage_pct": 31.4525,
+    "baseline_pixels": 81623,
+    "changed_pixels": 1228,
+    "change_pct": 1.5045,
+    "mean_before": 0.13304,
+    "mean_after": 0.12789,
+    "threshold": 0.15,
+    "baseline_threshold": 0.1,
+    "method": "RGB Green Leaf Index decline screening (not NDVI)",
+    "limitations": [
+      "Manual co-registration and supplied common clear mask are prerequisites.",
+      "Shadows, seasonality, illumination, water and land management can mimic vegetation loss.",
+      "No automatic cloud detection, ground truth, illegal-logging finding or prevented-deforestation estimate."
+    ],
+    "area_ha": null
+  }
+}
