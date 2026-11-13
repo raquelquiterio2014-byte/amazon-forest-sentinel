@@ -14,5 +14,5 @@
     "methodology navigation"
   ],
   "javascript_errors": [],
-  "visual_layout": "Not verified: Chromium launch blocked by execution environment socket restrictions."
+  "visual_layout": "DOM checks only; no pixel-layout or image-decoding verification."
 }

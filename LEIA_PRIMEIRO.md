@@ -42,3 +42,13 @@ A validação física depende de equipamentos reais e continua pendente. O firmw
 Os testes do software e a consulta real ao INPE estão descritos em **docs/TEST_REPORT.md**. A conferência visual no seu Windows continua necessária: o ambiente de criação bloqueou a abertura do Chromium para inspeção visual.
 
 Não compartilhe a pasta **data**, o arquivo **.env** ou coordenadas sensíveis em um repositório público.
+
+## Aplicar esta correção na pasta já instalada
+
+1. Pare o servidor com Ctrl+C no terminal.
+2. Extraia os arquivos deste pacote sobre a mesma pasta do projeto, aceitando substituir os arquivos do programa.
+3. Preserve a pasta data e o arquivo .env: eles não são incluídos neste ZIP.
+4. Execute novamente python server.py ou start_windows.bat.
+5. Atualize o navegador com Ctrl+F5, abra AI assistance e execute o modelo local novamente.
+
+No cenário DEMO original, o resumo esperado é TRAINING 50, EVALUATED 10, ANOMALIES 3 e NOT FLAGGED 7. Os detalhes incluem os sinais originais do Isolation Forest e a referência robusta calculada somente com o treinamento. Esses resultados verificam o cenário sintético, não a precisão em campo.

@@ -35,7 +35,7 @@ Configured site cadence is scoped by site ID and mode. If no sensor record exist
 
 ### AI
 
-Local Isolation Forest uses a single metric, one site, one workspace, fixed random seed and at least 40 valid readings. Earlier observations train the model, latest 10 are held out chronologically. Historical baselines may contain anomalies. The output is an uncalibrated anomaly score, not a logging class or probability. No accuracy estimate is fabricated without independent labels.
+Local Isolation Forest uses a single metric, one site, one workspace, fixed random seed and at least 40 valid readings. Earlier observations train the model, latest 10 are held out chronologically. Historical baselines may contain anomalies. The final anomaly flag requires both the Isolation Forest flag and |modified z| > 3.5, with modified z = 0.67448975 × (value - training median) / training MAD. The band is fit on earlier observations only; held-out values cannot change it. Zero or numerically negligible MAD is rejected rather than replaced with an arbitrary scale. Partition times must be strictly separated. Raw Isolation Forest flags and scores remain in the output; decision_score is explicitly defined as 3.5 - |modified z|. The guard can suppress subtle anomalies and is not a calibrated probability or logging class. No accuracy estimate is fabricated without independent labels.
 
 Cloud Gemini receives minimized numeric/context fields after explicit consent and returns unverified text. No cloud image upload, RAG corpus, autonomous decision, hardware command, model training or priority override is included. Credentials and availability are prerequisites.
 
@@ -46,3 +46,7 @@ Decisions are appended with reviewer identity, rationale and time. The applicati
 ## Evaluation required before field claims
 
 Use independently labelled spatial/temporal holdouts, inspect false positives from flooding, seasonality and shadows, evaluate precision/recall and alert delay, verify sensor calibration and communication loss, compare georeferencing against independent references, and measure the human response process. Claiming avoided deforestation additionally needs an independently defensible counterfactual. No such outcome has been validated here.
+
+Method references:
+- Isolation Forest automatic offset: https://scikit-learn.org/stable/modules/generated/sklearn.ensemble.IsolationForest.html
+- Modified z-score screening: https://itl.nist.gov/div898/handbook/eda/section3/eda35h.htm

@@ -1,0 +1,129 @@
+{
+  "algorithm_revision": "iforest-mad-guard-1",
+  "method": "IsolationForest + train-only median/MAD guard (one metric)",
+  "mode": "DEMO",
+  "site_id": "DEMO-RIVER",
+  "metric": "temperature_c",
+  "training_count": 50,
+  "evaluation_count": 10,
+  "training_ids_sha256": "f17f1cb92148dd7472d277fa11443bc4f7487f104b7045f075aa8cfc1cbd9787",
+  "training_end": "2026-11-13T20:02:12+00:00",
+  "evaluation_start": "2026-11-13T20:02:22+00:00",
+  "baseline": {
+    "median": 27.064500000000002,
+    "mad": 0.8509999999999973,
+    "modified_z_threshold": 3.5,
+    "lower_bound": 22.64856929218108,
+    "upper_bound": 31.480430707818925,
+    "fitted_on": "training observations only"
+  },
+  "decision_rule": "iforest_anomaly AND abs(modified_z_score) > 3.5",
+  "decision_score_definition": "3.5 - abs(modified_z_score); negative means outside robust band, not a probability",
+  "summary": {
+    "anomalies": 3,
+    "not_flagged": 7
+  },
+  "findings": [
+    {
+      "id": "demo-temp-50",
+      "value": 27.992,
+      "anomaly": false,
+      "decision_score": 2.764878,
+      "modified_z_score": 0.735122,
+      "iforest_anomaly": true,
+      "iforest_decision_score": -0.052,
+      "reason": "Within robust baseline band"
+    },
+    {
+      "id": "demo-temp-51",
+      "value": 26.615,
+      "anomaly": false,
+      "decision_score": 3.143733,
+      "modified_z_score": -0.356267,
+      "iforest_anomaly": true,
+      "iforest_decision_score": -0.058692,
+      "reason": "Within robust baseline band"
+    },
+    {
+      "id": "demo-temp-52",
+      "value": 25.802,
+      "anomaly": false,
+      "decision_score": 2.499362,
+      "modified_z_score": -1.000638,
+      "iforest_anomaly": true,
+      "iforest_decision_score": -0.103521,
+      "reason": "Within robust baseline band"
+    },
+    {
+      "id": "demo-temp-53",
+      "value": 26.744,
+      "anomaly": false,
+      "decision_score": 3.245977,
+      "modified_z_score": -0.254023,
+      "iforest_anomaly": true,
+      "iforest_decision_score": -0.065463,
+      "reason": "Within robust baseline band"
+    },
+    {
+      "id": "demo-temp-54",
+      "value": 28.061,
+      "anomaly": false,
+      "decision_score": 2.710189,
+      "modified_z_score": 0.789811,
+      "iforest_anomaly": true,
+      "iforest_decision_score": -0.054739,
+      "reason": "Within robust baseline band"
+    },
+    {
+      "id": "demo-temp-55",
+      "value": 27.824,
+      "anomaly": false,
+      "decision_score": 2.898032,
+      "modified_z_score": 0.601968,
+      "iforest_anomaly": true,
+      "iforest_decision_score": -0.045574,
+      "reason": "Within robust baseline band"
+    },
+    {
+      "id": "demo-temp-56",
+      "value": 26.38,
+      "anomaly": false,
+      "decision_score": 2.957476,
+      "modified_z_score": -0.542524,
+      "iforest_anomaly": true,
+      "iforest_decision_score": -0.061116,
+      "reason": "Within robust baseline band"
+    },
+    {
+      "id": "demo-temp-57",
+      "value": 41.844,
+      "anomaly": true,
+      "decision_score": -8.214009,
+      "modified_z_score": 11.714009,
+      "iforest_anomaly": true,
+      "iforest_decision_score": -0.040838,
+      "reason": "Outside robust baseline band and flagged by Isolation Forest"
+    },
+    {
+      "id": "demo-temp-58",
+      "value": 43.002,
+      "anomaly": true,
+      "decision_score": -9.131822,
+      "modified_z_score": 12.631822,
+      "iforest_anomaly": true,
+      "iforest_decision_score": -0.040838,
+      "reason": "Outside robust baseline band and flagged by Isolation Forest"
+    },
+    {
+      "id": "demo-temp-59",
+      "value": 44.157,
+      "anomaly": true,
+      "decision_score": -10.047257,
+      "modified_z_score": 13.547257,
+      "iforest_anomaly": true,
+      "iforest_decision_score": -0.040838,
+      "reason": "Outside robust baseline band and flagged by Isolation Forest"
+    }
+  ],
+  "limitations": "Unlabelled historical data may contain anomalies or seasonal drift. Latest 10 observations are held out chronologically. The robust guard can suppress subtle anomalies; representative field validation is required. No deforestation labels, calibrated probabilities or field detection accuracy are claimed. Output never changes rule priority."
+}

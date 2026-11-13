@@ -1,8 +1,8 @@
-# Verification report — November 12, 2026
+# Verification report — November 13, 2026
 
 ## Automated Python suite
 
-**43 tests passed** on Python 3.12 / Linux, using:
+**51 tests passed** on Python 3.12 / Linux, using:
 
 ```shell
 python -m unittest discover -s tests -v
@@ -33,3 +33,15 @@ The official TerraBrasilis WFS capabilities exposed `deter-amz:deter_amz`. Schem
 ## Reproduce locally
 
 Run the Python suite after installing requirements. For optional DOM testing, install Node.js 22+ and `npm install --no-save jsdom`, start `python server.py` in another terminal, then run `node tests/dom_acceptance.cjs`. The DOM report is written to data/dom_acceptance.json. DOM tests are development-only and are not needed to use the application.
+
+## Local anomaly-screening verification
+
+The revised algorithm retains Isolation Forest diagnostics and requires a train-only median/MAD guard for the final flag. It does not fit the guard to the ten held-out observations.
+
+- DEMO fixture: 50 training observations and 10 evaluated observations.
+- Seven ordinary holdout readings remain unflagged; three introduced temperature increases are flagged.
+- Additional tests cover an independent ordinary holdout, independent high/low excursions, a shifted/scaled baseline, independence from evaluation values, zero-MAD rejection and tied-time partition rejection.
+- The real local HTTP endpoint returns the same 7/3 summary.
+- These are controlled synthetic checks, not estimates of field precision or recall.
+
+Reproducible output is stored in LOCAL_AI_VALIDATION.json.

@@ -125,6 +125,53 @@ class ImageTests(Base):
 class IntelligenceTests(Base):
     def test_local_chronological_holdout(self):
         create_demo(self.store);r=local_anomalies(self.store,'DEMO','DEMO-RIVER','temperature_c');self.assertEqual(r['training_count'],50);self.assertEqual(r['evaluation_count'],10);self.assertTrue(any(v['anomaly'] for v in r['findings']));self.assertTrue(self.store.verify()['ok'])
+    def history(self,baseline,evaluation,root=None):
+        store=self.store if root is None else Store(Path(self.tmp.name)/root)
+        base=now()-timedelta(hours=1)
+        for i,value in enumerate(list(baseline)+list(evaluation)):
+            store.add(record(id='synthetic-'+str(i),value=float(value),
+                             timestamp=(base+timedelta(seconds=i)).isoformat()))
+        return store
+    def test_demo_discriminates_expected_pulses(self):
+        create_demo(self.store)
+        r=local_anomalies(self.store,'DEMO','DEMO-RIVER','temperature_c')
+        self.assertEqual([f['anomaly'] for f in r['findings']],[False]*7+[True]*3)
+        self.assertEqual(r['summary'],{'anomalies':3,'not_flagged':7})
+        self.assertTrue(all(f['decision_score']>0 for f in r['findings'][:7]))
+        self.assertTrue(all(f['decision_score']<0 for f in r['findings'][7:]))
+    def test_independent_normal_holdout(self):
+        rng=np.random.default_rng(218)
+        baseline=25+rng.normal(0,1.4,100)
+        evaluation=[24.8,25.2,24.1,25.8,26.1,23.9,25.6,24.5,26.2,25.0]
+        self.history(baseline,evaluation)
+        r=local_anomalies(self.store,'DEMO','TEST-SITE','temperature_c')
+        self.assertEqual(r['summary']['anomalies'],0)
+    def test_high_and_low_excursions_independent_fixture(self):
+        baseline=25+1.5*np.sin(np.arange(70)*.63)
+        self.history(baseline,[24,26,25,24.5,25.5,25.3,24.2,45,-10,50])
+        r=local_anomalies(self.store,'DEMO','TEST-SITE','temperature_c')
+        self.assertEqual([f['anomaly'] for f in r['findings']],[False]*7+[True]*3)
+    def test_shifted_scaled_baseline(self):
+        baseline=37+3*np.sin(np.arange(80)*.71)
+        self.history(baseline,[36,38,37,35.5,38.5,36.2,37.8,65,10,66])
+        r=local_anomalies(self.store,'DEMO','TEST-SITE','temperature_c')
+        self.assertEqual([f['anomaly'] for f in r['findings']],[False]*7+[True]*3)
+    def test_evaluation_does_not_fit_baseline(self):
+        baseline=27+np.sin(np.arange(60)*.71)
+        a=self.history(baseline,[27]*10)
+        b=self.history(baseline,[60]*10,root='independent')
+        ra=local_anomalies(a,'DEMO','TEST-SITE','temperature_c')
+        rb=local_anomalies(b,'DEMO','TEST-SITE','temperature_c')
+        self.assertEqual(ra['baseline'],rb['baseline'])
+        self.assertEqual(ra['training_ids_sha256'],rb['training_ids_sha256'])
+    def test_zero_mad_is_not_a_fabricated_scale(self):
+        self.history([27]*48+[26,28],[27]*10)
+        with self.assertRaisesRegex(ValueError,'robust variation'):
+            local_anomalies(self.store,'DEMO','TEST-SITE','temperature_c')
+    def test_tied_partition_times_rejected(self):
+        for i in range(40):self.store.add(record(id='tie-'+str(i),value=26+i%4,timestamp='2026-11-01T10:00:00Z'))
+        with self.assertRaisesRegex(ValueError,'separated observation times'):
+            local_anomalies(self.store,'DEMO','TEST-SITE','temperature_c')
     def test_insufficient_history(self):
         with self.assertRaises(ValueError):local_anomalies(self.store,'FIELD','missing','temperature_c')
     def test_cloud_minimizes_data_and_keeps_priority(self):
@@ -159,6 +206,13 @@ class HTTPTests(Base):
         q=Outbox(Path(self.tmp.name)/'outbox.sqlite3');q.put(record());self.assertEqual(q.flush(self.url,'wrong'),0);self.assertEqual(q.flush(self.url,self.server.sensor_token),1);self.assertEqual(q.flush(self.url,self.server.sensor_token),0)
     def test_site_receiver_and_export(self):
         self.request('/api/site',{'id':'TEST-SITE','mode':'DEMO','latitude':-3,'longitude':-60,'expected_interval_s':10});self.request('/api/ingest',record(),sensor=True);_,b=self.request('/api/state?mode=DEMO');self.assertEqual(json.loads(b)['sites'][0]['status'],'ACTIVE');_,b=self.request('/api/export?mode=DEMO');self.assertEqual(len(json.loads(b)['observations']),1)
+    def test_local_ai_endpoint_reports_seven_regular_three_excursions(self):
+        create_demo(self.server.store)
+        _,body=self.request('/api/local-ai',{'mode':'DEMO','site_id':'DEMO-RIVER','metric':'temperature_c'})
+        result=json.loads(body)
+        self.assertEqual(result['summary'],{'anomalies':3,'not_flagged':7})
+        self.assertEqual(result['baseline']['fitted_on'],'training observations only')
+        self.assertEqual(result['algorithm_revision'],'iforest-mad-guard-1')
     def test_full_image_workflow(self):
         enc=lambda name:{'name':name,'data':base64.b64encode((ROOT/'examples'/name).read_bytes()).decode()}
         m=json.loads((ROOT/'examples/image_metadata.json').read_text());m.update(threshold=.15,baseline=.1)

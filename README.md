@@ -40,7 +40,7 @@ On Linux/macOS use `sh start.sh`. If port 8765 is occupied: `python server.py --
 | Data & drone imports | Live public INPE WFS query, a bundled real sample, WGS84 GeoJSON, observation JSON and flight manifests |
 | Image comparison | RGB Green Leaf Index or red/NIR NDVI screening; required common valid masks, dated inputs and saved overlays |
 | Sensors & receiver | Bearer-authenticated HTTP ingestion, site cadence, ACTIVE / STALE / INVALID / NO_DATA states |
-| AI assistance | Offline Isolation Forest for one metric; optional minimized-data Gemini advisory |
+| AI assistance | Offline Isolation Forest with a train-only median/MAD guard; optional minimized-data Gemini advisory |
 | Human review | Append-only-in-app decisions with rationale and preserved original evidence files |
 | Reports & audit | Separate DEMO/FIELD JSON and CSV exports, print-ready HTML, local hash-chain checks |
 | Methodology | Thresholds, source distinctions and validation boundaries |
@@ -49,7 +49,7 @@ On Linux/macOS use `sh start.sh`. If port 8765 is occupied: `python server.py --
 
 1. **Overview → Load demonstration** creates 63 synthetic observations and two configured sensor sites. Repeated clicks do not refresh or overwrite existing timestamps.
 2. **Sensors** shows one recent or stale site depending on when you loaded the data, and an intentionally historical site. Time passing can make the demonstration stale: this is expected.
-3. **AI assistance → Run local anomaly model** uses `DEMO-RIVER / temperature_c`. Earlier 50 values train the model; latest 10 are held out. This is unsupervised screening, not a validated classifier.
+3. **AI assistance → Run local anomaly model** uses `DEMO-RIVER / temperature_c`. Earlier 50 values train the model and robust median/MAD band; latest 10 are held out. The final flag requires both an Isolation Forest flag and an absolute modified z-score above 3.5. On the synthetic fixture, seven ordinary readings remain unflagged and the three introduced temperature increases are flagged. This result is not field accuracy.
 4. **Data & drone imports → Import bundled real INPE sample** loads 8 real public alerts observed in 2026 into FIELD. They are historical records, not current emergency detections. The example is deliberately incomplete.
 5. **Map → Fit evidence** inspects their original polygons. Basemap tiles load only if you enable the online checkbox.
 6. **Image comparison → Use synthetic example pair → Analyze** runs a reproducible RGB experiment. Change the method to NDVI, reload its synthetic pair, and run again.

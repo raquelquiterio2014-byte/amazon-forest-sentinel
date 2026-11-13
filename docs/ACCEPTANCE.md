@@ -10,7 +10,7 @@
 | Drone input | Yes | Manifest validation path and shared observation pipeline implemented | No physical flight, aircraft control or imagery acquisition |
 | Sensor receiver and retry queue | Yes | Auth, ACK, duplicate/rejection and retry tests | Physical devices untested; receiver is loopback only |
 | Cadence and no-data status | Yes | ACTIVE / INVALID / STALE / NO_DATA tests and DOM display | No external SMS/email/push notification |
-| Local Isolation Forest | Yes | Chronological holdout and integrated UI run | Synthetic demonstration; no labelled forest-threat accuracy |
+| Local Isolation Forest + median/MAD guard | Yes | Train-only guard, chronological holdout, independent fixtures and integrated UI run | Synthetic demonstration; no labelled forest-threat accuracy |
 | Gemini advisory | Yes | Mocked transport and input-minimization tests | Requires user key/model; no successful live-key test claimed |
 | Human review, preserved attachments | Yes | Append history, content copies and hashes tested | Human source interpretation is still required |
 | Reports and integrity | Yes | JSON/CSV/HTML exports, escaping and tamper/deletion tests | Local hash chain is not externally anchored |
