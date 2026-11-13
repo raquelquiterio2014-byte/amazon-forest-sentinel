@@ -1,0 +1,6 @@
+# Exact direct dependency versions used for verification; Python 3.12 on Linux
+numpy==2.3.5
+Pillow==13.0.0
+rasterio==1.5.2
+shapely==2.2.0
+scikit-learn==1.8.0

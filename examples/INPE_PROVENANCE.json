@@ -1,0 +1,13 @@
+{
+  "source_url": "https://terrabrasilis.dpi.inpe.br/geoserver/deter-amz/wfs?service=WFS&version=1.0.0&request=GetFeature&typeName=deter-amz%3Adeter_amz&srsName=EPSG%3A4326&outputFormat=application%2Fjson&maxFeatures=8&sortBy=gid&CQL_FILTER=view_date+BETWEEN+%272026-01-01%27+AND+%272026-10-31%27+AND+BBOX%28geom%2C-75.0%2C-20.0%2C-40.0%2C10.0%2C%27EPSG%3A4326%27%29",
+  "layer": "deter-amz:deter_amz",
+  "date_property": "view_date",
+  "retrieved_at": "2026-11-12T21:52:13.817877+00:00",
+  "sha256": "cf82016ac2b30571056b4453124bdf4cccf002b09b0f8fc8d4355d6980d3cae6",
+  "retrieval_note": "Bounded single-page sample; not a complete regional time series. At limit, narrow the query.",
+  "at_limit": true,
+  "sample_limit": 8,
+  "license_note": "Source: INPE TerraBrasilis public WFS. Preserve source attribution and consult provider terms before redistribution beyond educational use.",
+  "bundled_file_sha256": "db4ad4ad73e4a839914fb8f81d7185e76cc40b60f7b62e08f80c033eff2a9ccb",
+  "sha256_note": "sha256 refers to original HTTP response bytes. bundled_file_sha256 refers to the JSON file after serialization."
+}

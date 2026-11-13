@@ -1,0 +1,25 @@
+{
+  "flight_id": "DEMO-FLIGHT-001",
+  "mode": "DEMO",
+  "platform": "Synthetic drone manifest",
+  "observations": [
+    {
+      "id": "demo-drone-manifest",
+      "site_id": "DEMO-RIVER",
+      "source_type": "drone",
+      "source_ref": "Synthetic externally supplied change estimate",
+      "mode": "DEMO",
+      "timestamp": "2026-11-12T21:52:52+00:00",
+      "latitude": -3.1,
+      "longitude": -60.0,
+      "metric": "vegetation_change_pct",
+      "value": 12,
+      "quality": "valid",
+      "metadata": {
+        "device_id": "demo-device",
+        "calibration": "synthetic; not calibrated hardware"
+      }
+    }
+  ],
+  "note": "A manifest is metadata only, not a flight controller."
+}

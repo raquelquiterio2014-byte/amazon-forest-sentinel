@@ -1,0 +1,5 @@
+numpy>=1.26,<3
+Pillow>=10,<14
+rasterio>=1.4,<2
+shapely>=2,<3
+scikit-learn>=1.4,<2

@@ -1,0 +1,18 @@
+{
+  "environment": "JSDOM + real local HTTP backend (not a visual browser)",
+  "passed": [
+    "demo",
+    "official INPE sample import",
+    "Leaflet map creation",
+    "RGB pipeline",
+    "NDVI pipeline",
+    "local IsolationForest",
+    "evidence selection",
+    "human review",
+    "sensor status",
+    "JSON CSV HTML exports",
+    "methodology navigation"
+  ],
+  "javascript_errors": [],
+  "visual_layout": "Not verified: Chromium launch blocked by execution environment socket restrictions."
+}
